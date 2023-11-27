@@ -46,6 +46,7 @@ export default class AnimaNumeros {
     this.observer.observe(this.observerTarget, { attributes: true });
   }
 
+  // inicializa o anima-numeros
   init() {
     if (this.numeros.length && this.observerTarget) {
       this.addMutationObserver();
