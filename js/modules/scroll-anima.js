@@ -6,6 +6,8 @@ export default class SrollAnima {
     this.checkDistance = this.checkDistance.bind(this);
   }
 
+  // pega a distância de cada item em relação
+  // ao topo do site
   getDistance() {
     this.distance = [...this.sections].map((section) => {
       const sectionTop = section.offsetTop;
@@ -16,6 +18,8 @@ export default class SrollAnima {
     });
   }
 
+  // verifica a distância em cada objeto
+  // em relação ao scroll do site
   checkDistance() {
     this.distance.forEach((section) => {
       if (window.scrollY > section.sectionTop) {
@@ -33,5 +37,10 @@ export default class SrollAnima {
       window.addEventListener('scroll', this.checkDistance);
     }
     return this;
+  }
+
+  // remove o event de scroll
+  stop() {
+    window.removeEventListener('scroll', this.checkDistance);
   }
 }
