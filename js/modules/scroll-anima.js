@@ -3,25 +3,35 @@ export default class SrollAnima {
     this.sections = document.querySelectorAll(sections);
     this.windowMetade = window.innerHeight * 0.6;
 
-    this.animaScroll = this.animaScroll.bind(this);
+    this.checkDistance = this.checkDistance.bind(this);
   }
 
-  animaScroll() {
-    this.sections.forEach((section) => {
-      const sectionTop = section.getBoundingClientRect().top;
-      const isSectionVisible = (sectionTop - this.windowMetade) < 0;
-      if (isSectionVisible) {
-        section.classList.add('ativo');
-      } else if (section.classList.contains('ativo')) {
-        section.classList.remove('ativo');
+  getDistance() {
+    this.distance = [...this.sections].map((section) => {
+      const sectionTop = section.offsetTop;
+      return {
+        element: section,
+        sectionTop: Math.floor(sectionTop - this.windowMetade),
+      };
+    });
+  }
+
+  checkDistance() {
+    this.distance.forEach((section) => {
+      if (window.scrollY > section.sectionTop) {
+        section.element.classList.add('ativo');
+      } else if (section.element.classList.contains('ativo')) {
+        section.element.classList.remove('ativo');
       }
     });
   }
 
   init() {
     if (this.sections.length) {
-      this.animaScroll();
-      window.addEventListener('scroll', this.animaScroll);
+      this.getDistance();
+      this.checkDistance();
+      window.addEventListener('scroll', this.checkDistance);
     }
+    return this;
   }
 }
